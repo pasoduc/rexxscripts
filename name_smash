@@ -1,0 +1,65 @@
+#! /usr/local/bin/rexx
+
+/******************************************************************************/
+/* NAME SMASH:                                                                */
+/*                                                                            */
+/*      This program takes the first, middle, and last names of different     */
+/*      users and compares them together. Information is returned comparing   */
+/*      the different names.                                                  */
+/******************************************************************************/
+
+/* Results should be: sum and averages of letter values,                      */
+/*                    total number of letters,                                */
+/*                    total num. of vowels and consonants                     */
+
+/* The program's output will be saved in an external file specified on the CL */
+parse arg fileout .
+
+/* Pre-initialize the arrays                                                  */
+fname.      = ''
+mname.      = ''
+lname.      = ''
+full_name.  = ''
+
+/* Set the variable values                                                    */
+c          = ','
+
+/* Ask the user for the number of people                                      */
+say "How many people would you like to NAME SMASH:"
+parse pull smash_number .
+
+/* Save the names in the arrays pre-initialized above                         */
+do j=1 while j<=smash_number
+  say
+  say "Add person "j": [first] [middle] [last]"
+  parse lower pull fname.j mname.j lname.j .
+  full_name.j = fname.j mname.j lname.j
+  say
+  call char_count full_name.j
+  say result
+end
+
+
+
+
+/******************************************************************************/
+/* SUBROUTINES                                                                */
+/******************************************************************************/
+
+/* This procedure takes a string and returns it's letter value                */
+char_count:
+
+  parse arg proc_string
+
+  letters  = "abcdefghijklmnopqrstuvwxyz"
+  count    = 0
+  position = 0
+
+  do j=1 while j<=length(proc_string)
+    proc_chars = substr(proc_string,j,1)
+    position   = pos(proc_chars, letters)
+    if position > 0 then
+      count = count + position
+  end /* Do */
+
+  return count

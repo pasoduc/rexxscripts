@@ -1,0 +1,24 @@
+#! /usr/local/bin/rexx
+
+/* Testing I/O shit                                                           */
+
+parse arg filein fileout         /* Get the file input and output from the CL */
+
+comment_count = 0
+line_count    = 0
+
+do while lines(filein) > 0  /* While there are more than 0 lines left to read */
+  input_line = linein(filein)
+  line_count = line_count + 1
+
+  if pos("/*", input_line) >= 1 then do
+      call lineout fileout, input_line
+      /* say result */
+      comment_count = comment_count + 1
+    end /* Do */
+
+end /* Do */
+
+say "There were" comment_count "lines of comments in" filein
+say "There were" line_count    "lines total in"       filein
+say "Each line with a comment was saved to the file:" fileout

@@ -1,0 +1,15 @@
+#! /usr/local/bin/rexx
+
+/******************************************************************************/
+/* PRINT TO SCREEN:                                                           */
+/*                                                                            */
+/*      Print a text file to the display, one line at a time.                 */
+/******************************************************************************/
+
+parse arg filein
+
+do while lines(filein) > 0
+  file_line = linein(filein)
+  line_number = lines(filein)
+  say line_number file_line
+end /* Do */

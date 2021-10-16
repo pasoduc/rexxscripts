@@ -1,0 +1,87 @@
+#! /usr/local/bin/rexx
+
+/******************************************************************************/
+/* MENU:                                                                      */
+/*                                                                            */
+/*      This program presents a menu to the user and performs updates based   */
+/*      on the transaction the user enters.                                   */
+/******************************************************************************/
+
+'clear'                                            /* This is a Linux command */
+
+/* When the Rexx interpreter does not recognize a statement as part of the
+   Rexx language, it assumes that it is an operating system command and
+   passes it to the operating system for execution. Since there is no such
+   command as 'clear' in the Rexx language, the interpreter passes
+   the string clear to the operating system for execution as an operating
+   system command.
+           -- Rexx Programmer's Reference, page 45                            */
+
+
+
+trans_type = ''
+
+do while trans_type \= 'X'                      /* Do until the user enters X */
+
+  say
+  say "Select the transaction type by abbreviation:"
+  say
+  say "     Insert = I"
+  say "     Update = U"
+  say "     Delete = D"
+  say "       Exit = X"
+  say
+  say "Your choice => "
+  pull trans_type .
+
+  select
+    when trans_type = 'I' then
+      call insert_routine
+
+    when trans_type = 'U' then
+      call update_routine
+
+    when trans_type = 'D' then
+      call delete_routine
+
+    when trans_type = 'X' then do
+        say
+        say "Good-bye"
+        say
+      end  /* Do */
+
+    otherwise
+      say
+      say "Invalid transaction type:" trans_type
+      say "Please press <ENTER> to reenter the transaction type."
+      pull .
+
+    end  /* Select */
+
+end  /* Do */
+
+exit 0
+
+/* An 'exit' instruction is required to separate the code of the main routine
+   from the subroutines or functions that follow it.                          
+           -- Rexx Programmer's Reference, page 46                            */
+
+
+/******************************************************************************/
+/* Routines                                                                   */
+/******************************************************************************/
+
+/* INSERT_ROUTINE goes here:                                                  */
+INSERT_ROUTINE: procedure
+  say "Insert Routine was executed"
+  return 0
+
+/* UPDATE_ROUTINE goes here:                                                  */
+UPDATE_ROUTINE: procedure
+  say "Update Routine was executed"
+  return 0
+
+/* DELETE_ROUTINE goes here:                                                  */
+DELETE_ROUTINE: procedure
+  say "Delete Routine was executed"
+  return 0

@@ -1,0 +1,6 @@
+user_word = "tuck"
+
+do while chars(user_word) > 0
+  user_chars = charin(user_word)
+  call charout 
+end

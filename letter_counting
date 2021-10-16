@@ -1,0 +1,48 @@
+#! /usr/local/bin/rexx
+
+/******************************************************************************/
+/* THE LETTER COUNTING GAME:                                                  */
+/*                                                                            */
+/*      Counting letters is fun! Until it isn't. This program takes input     */
+/*      from the user in the form of a word. For each lowercase letter,       */
+/*      points are assigned based on that letters position in the alphabet.   */
+/*                                                                            */
+/*      One point is removed, though, if the user capitalizes a ltter or      */
+/*      adds any puncutation (like an apstrophe).                             */
+/*                                                                            */
+/*      Only the first word is used for the game. Anything after a space is   */
+/*      ignored by the program.                                               */
+/******************************************************************************/
+
+letters   = 'abcdefghijklmnopqrstuvwxyz'
+/*           123456789.................                                       */
+/*           .........0123456789.......                                       */
+/*           ...................0123456                                       */
+
+count     = 0
+whatif    = 0
+reduce    = 0
+
+parse arg user_word
+
+do j = 1 while  j <= length(user_word)
+  user_char = substr(user_word,j,1)
+  position  = pos(user_char, letters)
+  if position > 0 then
+    count = count + position
+  else
+    reduce = reduce + 1
+end /* Do */
+
+say substr('',1,length(" Count      :" count),"*")
+say " Count      :" count
+say " Reductions :" reduce
+say " _________________"
+say " Total Value:" count - reduce
+say "******************"
+say
+say
+say "Additional Information"
+say "----------------------"
+say "Number of letters   :" length(user_word)
+say "Average Letter Value:" count / length(user_word)

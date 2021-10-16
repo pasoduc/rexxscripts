@@ -1,0 +1,43 @@
+#! /usr/local/bin/rexx
+
+/******************************************************************************/
+/* VA AREA CODES:                                                             */
+/*                                                                            */
+/*      This program looks up the area code of a town specified by the        */
+/*      user.                                                                 */
+/******************************************************************************/
+
+area. = ''
+
+/* LOOKUP TABLE                                                               */
+/* ------------                                                               */
+area.Sterling   = 703 ; area.Fairfax  = 540   ; area.Winchester = 571
+area.Berryville = 540 ; area.Richmond = 571   ; area.Arlington  = 703
+area.0          = 6
+
+
+/* In the Rexx Programmer's Reference (p. 61), the author uses if statements, */
+/* whereas I like the select conditional better for understanding how the     */
+/* program is supposed to operate.                                            */
+
+/* Do the do-loop until the user presses just <ENTER>                         */
+do while town <> ''
+  say "For which town in Virginia do you want the area code?"
+  pull town .
+  select
+
+  /* This next bit only works because the entire array was preinitialized     */
+  /* with a null string.                                                      */
+    when area.town <> '' then
+      say "The area code for" town "is" area.town
+
+    when area.town = '' then
+      say "The town" town "is not in the database"
+
+    /* The otherwise should never happen...                                   */
+    otherwise
+      say "Error"
+      exit 1
+
+  end /* Select */
+end /* Do */

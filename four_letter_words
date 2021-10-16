@@ -1,0 +1,22 @@
+/*******************************************************************************
+* This program takes input from the user and identifies all the words with     *
+* four letters. The list is returned at the end of the program.                *
+*******************************************************************************/
+
+/* Initialize with zero words */
+four_letter_words = ''
+
+do until user_word = ''
+  say "Enter a word: "
+  parse pull user_word .
+  /* Without parse, the input is auto-capitalized        */
+  /* The period ensures that only 1 word is read.        */
+  /** The period is Rexx convention.                    **/
+  /** The statement could: parse pull user_word ignore. **/
+
+  if length(user_word) = 4 then
+    four_letter_words = four_letter_words || " " || user_word
+
+end
+
+say four_letter_words

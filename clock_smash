@@ -1,0 +1,4 @@
+#! /usr/local/bin/rexx
+
+hours = xrange(01,12)
+say hours

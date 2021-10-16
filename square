@@ -1,0 +1,29 @@
+#! /usr/local/bin/rexx
+
+/******************************************************************************/
+/* SQUARE:                                                                    */
+/*                                                                            */
+/* This program takes input from the command line and returns the square of   */
+/* the number entered as the input. This is down by using an internal sub-    */
+/* routine.                                                                   */
+/******************************************************************************/
+
+
+arg number_input .                 /* Retrieve the number input from the user */
+
+call square_the_number number_input  /* square_the_number is defined below    */
+say "You entered:" number_input
+say "Squared, it is:" result
+
+exit 0
+
+
+/*******************************************************************************
+* SQUARE_THE_NUMBER:                                                           *
+*                                                                              *
+* Squares the number and RETURNs it into RESULT                                *
+*******************************************************************************/
+
+square_the_number: procedure
+  arg the_number
+  return the_number * the_number

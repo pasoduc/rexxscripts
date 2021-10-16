@@ -1,0 +1,113 @@
+/* Start the game...                                                          */
+say
+say "This is the number guessing game called Bounds!"
+
+/* Wrapper for continuing play                                                */
+do until continue_playing == "NO"
+  guesses = 0
+  upper_bounds  = random(10,1000)
+  lower_bounds  = upper_bounds - random(9,upper_bounds-1)
+
+  /* First guess:                                                             */
+  say
+  say "Pick a number between" lower_bounds "and" upper_bounds "for me to guess..."
+
+  do until ready_to_play == "YES"
+    say "Have you picked a number?"
+    parse upper pull ready_to_play .
+    say
+  end /* Do */
+
+  call NEW_BOUNDS_ROUTINE upper_bounds lower_bounds
+  new_bounds = result
+
+  first_guess = new_bounds
+  say "My first guess is: " first_guess
+  say
+
+  /* The meat of the action:                                                  */
+  do until user_answer == "CORRECT" | user_answer == "YES"
+    parse upper pull user_answer .
+    say
+
+    select
+      /* If the user says LARGER, then adjust the lower_bounds to be one       *
+      *  number greater than the difference of the upper and lower bounds.     *
+      *                                                                        *
+      *  If the user says SMALLER, then adjust the upper_bounds to be one      *
+      *  number less than the difference of the upper and lower bounds.        *
+      *                                                                        *
+      *  Then guess again...                                                  */
+
+      when user_answer == "LARGER" | user_answer == "HIGHER" then do
+          /* The lower_bounds should always be smaller than the upper_bounds. */
+          say lower_bounds
+          lower_bounds = min(new_bounds,upper_bounds)
+          guesses = guesses + 1
+          say lower_bounds
+          say "Is the number: " new_bounds
+          say
+        end /* When */
+
+      when user_answer == "SMALLER" | user_answer == "LOWER" then do
+          /* The upper_bounds should always be larger than the lower_bounds.  */
+
+          call NEW_BOUNDS_ROUTINE upper_bounds lower_bounds
+          new_bounds = result
+
+          say
+          say upper_bounds
+          say lower_bounds
+          say
+
+          upper_bounds = max(new_bounds,lower_bounds)
+          guesses = guesses + 1
+
+          say
+          say upper_bounds
+          say lower_bounds
+          say
+
+          say "Is the number: " new_bounds
+          say
+        end /* When */
+
+      when user_answer == "CORRECT" | user_answer == "YES" then do
+          guesses = guesses + 1
+          say
+          say "Yes! I did it!"
+          say "It took me" guesses "guesses..."
+          say "But I did it!"
+          say
+        end /* When */
+
+      otherwise do
+          say
+          say "Invalid response."
+          say "Please resubmit your answer:"
+        end /* Otherwise */
+    end /* Select */
+  end /* Do */
+
+  /* Continue playing?                                                        */
+  say
+  say "Wanna play another game of Bounds?"
+  say
+  parse upper pull continue_playing .
+  say
+
+end /* Do */
+
+say "Good-bye...for now!"
+say
+
+exit 0
+
+
+/******************************************************************************/
+/* ROUTINES:                                                                  */
+/******************************************************************************/
+
+NEW_BOUNDS_ROUTINE: procedure
+  arg upper_bounds lower_bounds
+  return trunc((upper_bounds + lower_bounds) / 2)

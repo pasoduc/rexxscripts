@@ -1,0 +1,20 @@
+#! /usr/local/bin/rexx
+
+/******************************************************************************/
+/* THE LETTER COUNTING GAME:                                                  */
+/******************************************************************************/
+
+
+letters   = 'abcdefghijklmnopqrstuvwxyz'          /* Set the letters variable */
+count     = 0                               /* Pre-initialize count with zero */
+
+parse arg user_word                           /* Take input from command line */
+
+do j = 1 while  j <= length(user_word)        /* Loop through the user's word */
+  user_char = substr(user_word,j,1)          /* Focus on one letter at a time */
+  position  = pos(user_char, letters)             /* Position value of letter */
+  if position > 0 then           /* If the letter the is there is in letters, */
+    count = count + position                    /* increase count by position */
+end /* Do */
+
+say count                                                      /* Print count */
